@@ -1,0 +1,29 @@
+=========
+products (песок, гравий, пгс)
+=========
+product_id
+product_name
+product_unit (ед. измерения)
+product_price
+product_description
+
+=============
+areas (район доставки)
+=============
+area_id
+area_name
+area_price
+area_coefficient
+area_description
+
+======
+orders (заказы)
+======
+order_id
+order_date
+order_name
+order_phone
+product_id
+area_id
+order_address
+order_description

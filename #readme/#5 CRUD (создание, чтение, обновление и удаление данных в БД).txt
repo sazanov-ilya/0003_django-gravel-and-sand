@@ -1,0 +1,8 @@
+---
+test_api.py
+Добавлякм тест
+test_create_products_list
+
+python manage.py test app_first__gravel_and_sand.tests.test_api.ProductsApiTestCase.test_create_products_list
+
+python manage.py test app_first__gravel_and_sand.tests.test_api.ProductsApiTestCase.test_update_products_list

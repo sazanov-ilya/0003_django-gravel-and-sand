@@ -1,0 +1,138 @@
+http://127.0.0.1:8000/auth/
+
+
+https://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/
+
+https://www.django-rest-framework.org/api-guide/authentication/#django-rest-framework-oauth
+
+!
+https://python-social-auth.readthedocs.io/en/latest/
+
+---
+Добавляем аутентификацию
+
+views.py
+permission_classes = [IsAuthenticated]
+
+
+---
+https://python-social-auth.readthedocs.io/en/latest/
+Django Framework
+ставим пакет
+social-auth-app-django
+
+---
+settings.py
+
+INSTALLED_APPS = (
+    ...
+    'social_django',
+    ...
+)
+
+---
+python manage.py migrate
+
+---
+settings.py
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
+---
+прописываем все нудные социальные сети и последняя строка обязательно
+
+settings.py
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.yahoo.YahooOpenId',
+    ...
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+---
+прописываем url
+
+urls.py
+
+urlpatterns = patterns('',
+    ...
+    url('', include('social_django.urls', namespace='social'))
+    ...
+)
+
+
+---
+авторизация через github
+
+https://python-social-auth.readthedocs.io/en/latest/backends/github.html?highlight=github
+
+AUTHENTICATION_BACKENDS = (
+	'social_core.backends.github.GithubOAuth2',
+	...
+
+
+---
+Регистрируем приложение на github и получаем ключи для интеграции
+
+https://github.com/settings/applications/new
+
+app_gravel_and_sand
+http://127.0.0.1:8000
+http://127.0.0.1:8000/complete/github/
+
+---
+регистрируем и получаем ключи
+
+Client ID
+e33d7752dd4bc99bd06f
+Client secrets
+5fa04cb45bc27b2bf8a9bced2d998bc34ac921d3
+
+---
+прописываем ключи 
+
+settings.py
+
+SOCIAL_AUTH_GITHUB_KEY = 'e33d7752dd4bc99bd06f'
+SOCIAL_AUTH_GITHUB_SECRET = '5fa04cb45bc27b2bf8a9bced2d998bc34ac921d3'
+
+--- 
+в папке проекта создаем доп папку шаблонов
+templates
+
+---
+и прописываем в
+settings.py
+TEMPLATES = [
+    {
+	...
+	'DIRS': ['templates'],
+	...
+}
+
+---
+Создаем новый файл
+oauth.html
+
+<body>
+    <a href="{% url "social:begin" "github" %}">Github</a>
+</body>
+
+сверяем с urls.py
+
+---
+views.py
+создаем
+
+def auth(request):
+    return render(request, 'oauth.html')
+	
+---
+и прописываем созданный view в  
+urls.py
+

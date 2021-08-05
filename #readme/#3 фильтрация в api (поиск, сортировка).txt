@@ -1,0 +1,80 @@
+https://www.django-rest-framework.org/api-guide/filtering/
+
+устанавливаем пакет
+django-filter
+
+---
+добавляем фильтры в
+
+views.py
+filter_backends = [DjangoFilterBackend]
+и прописываем поля в
+filter_fields = []
+
+---
+задаем формат вывода данных по умолчанию
+
+settings.py
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    )
+}
+
+http://127.0.0.1:8000/get_products/?format=json
+http://127.0.0.1:8000/get_products/?product_price=4000
+http://127.0.0.1:8000/get_products/?product_id=3
+
+http://127.0.0.1:8000/get_areas
+http://127.0.0.1:8000/get_areas/?product_price=4000
+
+
+---
+Добавляем поиск (проверка на совпадение более чем в одном из полей)
+
+views.py
+filter_backends = [DjangoFilterBackend, SearchFilter]
+и прописываем ключ
+search_fields = ['product_name', 'product_description']
+
+http://127.0.0.1:8000/get_all_products/?search=Тест
+
+
+---
+Сортировка
+
+views.py
+filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+ordering_fielda = ['product_price', 'product_name']
+
+http://127.0.0.1:8000/get_all_products/
+http://127.0.0.1:8000/get_all_products/?ordering=product_price
+http://127.0.0.1:8000/get_all_products/?ordering=-product_price
+http://127.0.0.1:8000/get_all_products/?ordering=product_name
+
+
+---
+тесты
+
+python manage.py test app_first__gravel_and_sand.tests.test_api
+
+запуск только одного конкретного теста
+python manage.py test app_first__gravel_and_sand.tests.test_api.ProductsApiTestCase.test_get_products_list
+
+python manage.py test app_first__gravel_and_sand.tests.test_api.ProductsApiTestCase.test_search_products_list
+
+python manage.py test app_first__gravel_and_sand.tests.test_api.ProductsApiTestCase.test_filter_products_list
+
+python manage.py test app_first__gravel_and_sand.tests.test_api.ProductsApiTestCase.test_ordering_products_list
+
+- OrdersApiTestCase
+python manage.py test app_first__gravel_and_sand.tests.test_api.OrdersApiTestCase.test_create_order
+
+
+
+===
+python manage.py test app_first__gravel_and_sand.tests.test_serializers

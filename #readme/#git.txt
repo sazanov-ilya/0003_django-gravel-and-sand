@@ -1,0 +1,7 @@
+echo "# 0003_django-gravel-and-sand" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/sazanov-ilya/0003_django-gravel-and-sand.git
+git push -u origin main
